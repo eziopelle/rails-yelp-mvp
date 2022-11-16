@@ -6,8 +6,12 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 require 'faker'
+Review.destroy_all
 Restaurant.destroy_all
 
 10.times do
-  Restaurant.create!(name: Faker::Restaurant.name, address: Faker::Address.street_name, category: ["chinese", "italian", "japanese", "french", "belgian"].sample, phone_number: Faker::PhoneNumber.cell_phone)
+  resto = Restaurant.create!(name: Faker::Restaurant.name, address: Faker::Address.street_name, category: ["chinese", "italian", "japanese", "french", "belgian"].sample, phone_number: Faker::PhoneNumber.cell_phone)
+  5.times do
+    Review.create!(restaurant_id: resto.id, content: [Faker::Quotes::Shakespeare.as_you_like_it_quote, Faker::Restaurant.review].sample, rating: [1, 2, 3, 4, 5].sample)
+  end
 end
